@@ -1,23 +1,21 @@
 from mcp.server.fastmcp import FastMCP
+from RAG.QdrantProcess import ProcessVectorDB
+from RAG.Generator import Generator
 
+db = ProcessVectorDB()
 mcp = FastMCP(name="mcp-sever")
 
 
 @mcp.tool()
-def add(a: int, b: int) -> int:
-    """add two numbers"""
-    return a + b
+def get_all_collections() -> int:
+    """ lấy thông tin tên các tài liệu  tất cả  được lưu trữ """
+    return db.get_collections()
 
 
-@mcp.resource("resource://ma_so_thue")
-def get_ma_so_thue() -> str:
-    """get tax code"""
-    return "0987654321"
-
-
-@mcp.prompt()
-def review_sentences(text: str) -> str:
-    return "review this sentence"
+@mcp.tool()
+def search(collection_name: str, question: str) -> str:
+    """ Tìm kiếm thông tin trong tài liệu"""
+    return Generator.search(collection_name, question)
 
 
 if __name__ == "__main__":

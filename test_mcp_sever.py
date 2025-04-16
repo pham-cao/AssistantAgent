@@ -9,18 +9,15 @@ async def check():
 
             # List avail tool
             tools = await session.list_tools()
-            print(tools)
 
             # Call add tool
-            result = await session.call_tool("add", arguments={"a": 4, "b": 6})
+            result = await session.call_tool("get_all_collections")
             print(result)
 
-            # Get tax code
-            result = await session.read_resource("resource://ma_so_thue")
-            print("Tax code = {}".format(result))
-
-            prompt = await session.get_prompt("review_sentences", arguments={"text": "hello"})
-            print("Prompt = {}".format(prompt))
+            result = await session.call_tool("search",
+                                             arguments={"collection_name": "Tài Liệu Giải Pháp Phân Quyền Câu Hỏi.docx",
+                                                        "question": "giải pháp là gì"})
+            print(result)
 
 
 if __name__ == "__main__":
